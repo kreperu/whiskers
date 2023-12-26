@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/whiskers.dir/main.cpp.o CMakeFiles/whiskers.dir/include/tile.cpp.o -o whiskers   -L/home/kuba/projects/whiskers/raylib-5.0_linux_amd64/lib  -Wl,-rpath,/home/kuba/projects/whiskers/raylib-5.0_linux_amd64/lib -lraylib 
