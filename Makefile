@@ -4,3 +4,5 @@ all:
 build:
 	cp -rf assets build/
 	cd build && cmake .. && make
+run:
+	cd build && ./whiskers
