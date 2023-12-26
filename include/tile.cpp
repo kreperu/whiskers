@@ -1,6 +1,10 @@
 #include "tile.hpp"
 #include <cmath>
 
+Tile::Tile() {
+	return;
+}
+
 Tile::Tile(int x, int y) {
 	this->x = x;
 	this->y = y;

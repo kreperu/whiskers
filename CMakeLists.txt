@@ -13,8 +13,11 @@ link_directories("raylib-5.0_linux_amd64/lib/")
 add_executable(whiskers 
 	main.cpp
 	include/tile.cpp
+	include/sprite.cpp
 	)
 
-target_include_directories(whiskers PUBLIC "include/")
+target_include_directories(whiskers PUBLIC "include/" "assets/")
+
+file(COPY "assets" DESTINATION ${CMAKE_BINARY_DIR})
 
 target_link_libraries(whiskers libraylib.so)

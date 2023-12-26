@@ -12,6 +12,7 @@ class Tile {
 		int y;
 		int hitbox[4];
 
+		Tile();
 		Tile(int x, int y);
 		// add tile texture from texture object
 		void addTexture(Texture2D* texture);

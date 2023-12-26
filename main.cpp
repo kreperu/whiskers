@@ -2,6 +2,7 @@
 #include "raylib.h"
 
 #include "tile.hpp"
+#include "sprite.hpp"
 
 int main() {
 	InitWindow(800, 400, "test");
@@ -9,9 +10,9 @@ int main() {
 	SetTargetFPS(144);
 	
 	Texture2D cat = LoadTexture("assets/cat.png");
-	Tile bg(0, 0);
-	bg.addTextureFromFile("assets/nay.png");
-	bg.resize(64, 64);
+	Sprite* sp = new Sprite(0, 0);
+	sp->addTexture(&cat);
+	sp->resize(64, 128);
 
 	int xPos = -cat.width;
 
@@ -22,16 +23,16 @@ int main() {
 		}
 		
 		if(xPos > GetScreenWidth()) xPos = -cat.width-1;
+		sp->move(xPos, 0);
 
 		BeginDrawing();
 
 		ClearBackground(RAYWHITE);
-		DrawTexture(cat, xPos, 10, WHITE);
-		bg.display();
+		sp->display();
 
 		EndDrawing();
 
-		xPos += 10;
+		xPos += 1;
 	}
 
 	CloseWindow();
