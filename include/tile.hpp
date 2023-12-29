@@ -2,6 +2,9 @@
 #define TILE_HPP_
 
 #include "raylib.h"
+#include <vector>
+#include <map>
+#include <any>
 
 class Tile {
 	public:
@@ -10,10 +13,13 @@ class Tile {
 		Texture2D texture;
 		int x;
 		int y;
+		int z;
 		int hitbox[4];
+		std::vector<void (*)(Tile*)> event;
+		std::map<char*, std::any> prop;
 
 		Tile();
-		Tile(int x, int y);
+		Tile(int x, int y, int z);
 		// add tile texture from texture object
 		void addTexture(Texture2D* texture);
 		// add tile texture from filename

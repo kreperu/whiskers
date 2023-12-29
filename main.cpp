@@ -2,7 +2,7 @@
 #include "raylib.h"
 
 #include "tile.hpp"
-#include "sprite.hpp"
+#include "event.hpp"
 
 int main() {
 	InitWindow(800, 400, "test");
@@ -10,7 +10,7 @@ int main() {
 	SetTargetFPS(144);
 	
 	Texture2D cat = LoadTexture("assets/cat.png");
-	Sprite* sp = new Sprite(0, 0);
+	Tile* sp = new Tile(0, 0, 0);
 	sp->addTexture(&cat);
 	sp->resize(64, 128);
 

@@ -5,9 +5,10 @@ Tile::Tile() {
 	return;
 }
 
-Tile::Tile(int x, int y) {
+Tile::Tile(int x, int y, int z) {
 	this->x = x;
 	this->y = y;
+	this->z = z;
 	this->width = 0;
 	this->height = 0;
 	this->hitbox[0] = x;

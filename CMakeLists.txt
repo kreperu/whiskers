@@ -13,7 +13,7 @@ link_directories("raylib-5.0_linux_amd64/lib/")
 add_executable(whiskers 
 	main.cpp
 	include/tile.cpp
-	include/sprite.cpp
+	include/event.cpp
 	)
 
 target_include_directories(whiskers PUBLIC "include/" "assets/")
