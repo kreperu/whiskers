@@ -7,7 +7,7 @@
 int main() {
 	InitWindow(800, 400, "test");
 	SetWindowMaxSize(GetScreenWidth(), GetScreenHeight());
-	SetTargetFPS(144);
+	SetTargetFPS(60);
 	
 	Texture2D cat = LoadTexture("assets/cat.png");
 	Tile* sp = new Tile(0, 0, 0);
