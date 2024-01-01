@@ -15,7 +15,7 @@ class Tile {
 		int y;
 		int z;
 		int hitbox[4];
-		std::vector<void (*)(Tile*)> event;
+		std::vector<void (*)(Tile*, std::any)> event;
 		std::map<char*, std::any> prop;
 
 		Tile();
@@ -24,6 +24,10 @@ class Tile {
 		void addTexture(Texture2D* texture);
 		// add tile texture from filename
 		void addTextureFromFile(const char* filename);
+		// add property of std::any type
+		void add(const char* propName, std::any propVal);
+		// add event function pointer
+		void add(void (*event)(Tile*, std::any));
 		// resize tile
 		void resize(int width, int height);
 		// move tile to x, y

@@ -28,6 +28,15 @@ void Tile::addTextureFromFile(const char* filename) {
 	return;
 }
 
+void Tile::add(const char* propName, std::any propVal) {
+	this->prop[(char*)propName] = propVal;
+	return;
+}
+
+void Tile::add(void (*event)(Tile*, std::any)) {
+	this->event.push_back(event);
+}
+
 void Tile::resize(int width, int height) {
 	this->width = width;
 	this->height = height;

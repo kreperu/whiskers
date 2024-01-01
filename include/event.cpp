@@ -1,7 +1,20 @@
 #include "event.hpp"
 
-bool EventHandler::handleEvents(std::vector<Tile*>* tiles) {
-	return false;
+void EventHandler::handleEvents() {
+	for(auto& tile : this->tiles) {
+		for(auto& func : tile->event) {
+			func(tile, std::make_any<EventHandler*>(this));
+		}
+	}
+	return;
+}
+
+void EventHandler::handleDrawing() {
+	 for(auto&& [func, tile] : drawQueue) {
+		func(tile);
+	 }
+	 drawQueue.clear();
+	 return;
 }
 
 int EventHandler::addToHandler(Tile* tile) {
@@ -18,12 +31,50 @@ int EventHandler::addToHandler(Tile* tile) {
 }
 
 bool EventHandler::removeFromHandler(int id) {
-	std::vector<Tile*>::iterator curTilesSize = this->tiles.end();
-	this->tiles.erase(this->tiles.begin() + id);
-	std::vector<Tile*> subTiles{this->tiles.begin() + id, this->tiles.end() + 0};
-	this->tiles.insert(this->tiles.begin() + id, subTiles.begin(), subTiles.end());
-	this->tiles.erase(curTilesSize, this->tiles.end());
-	return false;
+	if(id >= this->tiles.size()) return false;
+
+	Tile* beforeRemove = getTileById(id-1);
+	std::vector<int> backXYZ;
+	if(id >= 1) backXYZ = {beforeRemove->x, beforeRemove->y, beforeRemove->z};
+	Tile* afterRemove = getTileById(id+1);
+	std::vector<int> frontXYZ;
+	if((id + 1) < this->tiles.size()) frontXYZ = {afterRemove->x, afterRemove->y, afterRemove->z};
+
+	std::vector<Tile*> backTiles{this->tiles.begin(), this->tiles.end()-(this->tiles.size()-id-1)}; if(id == 0) backTiles.clear();
+	std::vector<Tile*> frontTiles{this->tiles.begin()+id+1, this->tiles.end()};
+	backTiles.insert(backTiles.end(), frontTiles.begin(), frontTiles.end());
+	this->tiles.clear();
+	this->tiles.insert(this->tiles.begin(), backTiles.begin(), backTiles.end());
+	
+
+	std::map<int, Tile*> backTilesId{this->tilesId.begin(), this->tilesId.find(id-1)}; if(id == 0) backTilesId.clear();
+	std::map<int, Tile*> frontTilesId{this->tilesId.find(id+1), this->tilesId.end()};
+	backTilesId.insert(frontTilesId.begin(), frontTilesId.end());
+	this->tilesId.clear();
+	this->tilesId.insert(backTilesId.begin(), backTilesId.end());
+	
+
+	std::map<int, std::map<char*, std::any>> backIdPropertiesVal{this->idPropertiesVal.begin(), this->idPropertiesVal.find(id-1)}; if(id == 0) backIdPropertiesVal.clear();
+	std::map<int, std::map<char*, std::any>> frontIdPropertiesVal{this->idPropertiesVal.find(id+1), this->idPropertiesVal.end()};
+	backIdPropertiesVal.insert(frontIdPropertiesVal.begin(), frontIdPropertiesVal.end());
+	this->idPropertiesVal.clear();
+	this->idPropertiesVal.insert(backIdPropertiesVal.begin(), backIdPropertiesVal.end());
+
+
+	std::map<int, std::vector<char*>> backIdPropertiesHas{this->idPropertiesHas.begin(), this->idPropertiesHas.find(id-1)}; if(id == 0) backIdPropertiesHas.clear();
+	std::map<int, std::vector<char*>> frontIdPropertiesHas{this->idPropertiesHas.find(id+1), this->idPropertiesHas.end()};
+	backIdPropertiesHas.insert(frontIdPropertiesHas.begin(), frontIdPropertiesHas.end());
+	this->idPropertiesHas.clear();
+	this->idPropertiesHas.insert(backIdPropertiesHas.begin(), backIdPropertiesHas.end());
+
+	// id-1
+	std::map<std::vector<int>, Tile*> backTilesXYZ{this->tilesXYZ.begin(), this->tilesXYZ.find(backXYZ)}; if(id == 0) backTilesXYZ.clear();
+	std::map<std::vector<int>, Tile*> frontTilesXYZ{this->tilesXYZ.find(frontXYZ), this->tilesXYZ.end()};
+	backTilesXYZ.insert(frontTilesXYZ.begin(), frontTilesXYZ.end());
+	this->tilesXYZ.clear();
+	this->tilesXYZ.insert(backTilesXYZ.begin(), backTilesXYZ.end());	
+
+	return true;
 }
 
 Tile* EventHandler::getTileById(int id) {
@@ -49,4 +100,18 @@ std::vector<Tile*> EventHandler::getTilesByPropHas(char* propName) {
 		if(propMap.count(propName)) ret.push_back(getTileById(id));
 	}
 	return ret;
+}
+
+int EventHandler::getIdByTile(Tile* tile) {
+	for(auto&& [id, val] : this->tilesId) {
+		if(tile == val) {
+			return id;
+		}
+	}
+	return -1;
+}
+
+EventHandler* EventHandler::draw(void (*func)(Tile*), Tile* tile) {
+	this->drawQueue.emplace(std::make_pair(func, tile));
+	return this;
 }
