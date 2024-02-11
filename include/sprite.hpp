@@ -9,7 +9,9 @@ class Sprite : public Tile {
 		int ax;
 		int ay;
 
-		Sprite(int x, int y);
-}
+		Sprite(int x, int y) : Tile(x, y) {}
+		void addTexture(Texture2D* texture);
+		void resize(int width, int height);
+};
 
 #endif

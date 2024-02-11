@@ -1,3 +1,0 @@
-/home/kuba/projects/whiskers/build/CMakeFiles/whiskers.dir
-/home/kuba/projects/whiskers/build/CMakeFiles/edit_cache.dir
-/home/kuba/projects/whiskers/build/CMakeFiles/rebuild_cache.dir
