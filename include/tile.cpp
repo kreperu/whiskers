@@ -11,20 +11,20 @@ Tile::Tile(int x, int y, int z) {
 	this->z = z;
 	this->width = 0;
 	this->height = 0;
-	this->hitbox[0] = x;
-	this->hitbox[1] = y;
-	this->hitbox[2] = x + this->width;
-	this->hitbox[3] = y + this->height;
 	return;
 }
 
 void Tile::addTexture(Texture2D* texture) {
 	this->texture = *texture;
+	this->width = texture->width;
+	this->height = texture->height;
 	return;
 }
 
 void Tile::addTextureFromFile(const char* filename) {
 	this->texture = LoadTexture(filename);
+	this->width = this->texture.width;
+	this->height = this->texture.height;
 	return;
 }
 
@@ -48,24 +48,30 @@ void Tile::resize(int width, int height) {
 	return;
 }
 
-void Tile::move(int x, int y) {
+void Tile::move(int x, int y, int z) {
 	this->x = x;
 	this->y = y;
-	this->hitbox[0] = x;
-	this->hitbox[1] = y;
-	this->hitbox[2] = x + this->width;
-	this->hitbox[3] = y + this->height;
+	this->z = z;
 	return;
 }
 
-bool Tile::inHitboxS(int* hitbox) {
-	if(*(hitbox) >= this->hitbox[0] && *(hitbox+1) >= this->hitbox[1] && *(hitbox+2) <= this->hitbox[2] && *(hitbox+3) <= this->hitbox[3]) {
-		return true;
-	}
-	return false;
+void Tile::move(std::vector<int> xyz) {
+	this->x = xyz[0];
+	this->z = xyz[1];
+	this->y = xyz[2];
+	return;
 }
 
 void Tile::display() {
 	DrawTexture(this->texture, this->x, this->y, WHITE);
 	return;
+}
+
+std::any Tile::getProp(const char* propName) {
+	std::any prop = this->prop[(char*)propName];
+	return prop;
+}
+
+std::any Tile::getProp(char* propName) {
+	return this->prop[propName];
 }

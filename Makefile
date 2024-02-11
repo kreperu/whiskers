@@ -6,3 +6,5 @@ build:
 	cd build && cmake .. && make
 run:
 	cd build && ./whiskers
+clean:
+	rm -rf build/*

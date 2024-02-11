@@ -22,7 +22,7 @@ class EventHandler {
 		std::map<std::vector<int>, Tile*> tilesXYZ;
 		
 		// Queue for drawing
-		std::map<void (*)(Tile*), Tile*> drawQueue;
+		std::vector<std::pair<void (*)(Tile*), Tile*>> drawQueue;
 
 		// Handle all events
 		void handleEvents();

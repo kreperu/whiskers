@@ -31,11 +31,12 @@ class Tile {
 		// resize tile
 		void resize(int width, int height);
 		// move tile to x, y
-		void move(int x, int y);
-		// return wether hitbox is in obj.hitbox
-		bool inHitboxS(int* hitbox);
+		void move(int x, int y, int z);
+		void move(std::vector<int> xyz);
 		// display tile
 		void display();
+		std::any getProp(const char* propName);
+		std::any getProp(char* propName);
 };
 
 #endif

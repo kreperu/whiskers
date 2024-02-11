@@ -10,11 +10,11 @@ void EventHandler::handleEvents() {
 }
 
 void EventHandler::handleDrawing() {
-	 for(auto&& [func, tile] : drawQueue) {
-		func(tile);
-	 }
-	 drawQueue.clear();
-	 return;
+	for(auto& draw : drawQueue) {
+		std::get<0>(draw)(std::get<1>(draw));
+	}
+	drawQueue.clear();
+	return;
 }
 
 int EventHandler::addToHandler(Tile* tile) {
@@ -112,6 +112,6 @@ int EventHandler::getIdByTile(Tile* tile) {
 }
 
 EventHandler* EventHandler::draw(void (*func)(Tile*), Tile* tile) {
-	this->drawQueue.emplace(std::make_pair(func, tile));
+	this->drawQueue.push_back(std::make_pair(func, tile));
 	return this;
 }

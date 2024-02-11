@@ -14,6 +14,9 @@ add_executable(whiskers
 	main.cpp
 	include/tile.cpp
 	include/event.cpp
+	include/isometric.cpp
+	include/predefentity.cpp
+	include/region.cpp
 	)
 
 target_include_directories(whiskers PUBLIC "include/" "assets/")

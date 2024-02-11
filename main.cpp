@@ -7,6 +7,8 @@
 
 #include "tile.hpp"
 #include "event.hpp"
+#include "isometric.hpp"
+#include "predefentity.hpp"
 
 void FPSEvent(Tile* that, std::any e) {
 	EventHandler* event = std::any_cast<EventHandler*>(e);
@@ -18,12 +20,15 @@ int main() {
 	SetWindowMaxSize(GetScreenWidth(), GetScreenHeight());
 	SetTargetFPS(144);
 	
-	Texture2D cat = LoadTexture("assets/cat.png");
+	Texture2D cube = LoadTexture("assets/izocube.png");
 	Tile* FPSDisplay = new Tile(0, 0, 0);
 	FPSDisplay->add(&FPSEvent);
 
 	EventHandler* ev = new EventHandler();
 	int FPSDisplayId = ev->addToHandler(FPSDisplay);
+
+	Tile block = spawnMovablePlayer(30, 0, 0);
+	ev->addToHandler(&block);
 	
 
 	while(!WindowShouldClose()) {
@@ -32,6 +37,8 @@ int main() {
 		if(IsKeyPressed(KEY_F11)) {
 			ToggleFullscreen();
 		}
+
+
 
 		BeginDrawing();
 
@@ -43,6 +50,8 @@ int main() {
 	}
 
 	CloseWindow();
+	delete FPSDisplay;
+	delete ev;
 
 	return 0;
 }
